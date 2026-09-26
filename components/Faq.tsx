@@ -1,9 +1,20 @@
 import { Plus } from "lucide-react";
 import { FAQS } from "@/lib/constants";
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: FAQS.map((faq) => ({
+    "@type": "Question",
+    name: faq.q,
+    acceptedAnswer: { "@type": "Answer", text: faq.a },
+  })),
+};
+
 export function Faq() {
   return (
     <section className="bg-white py-20 md:py-28">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <div className="mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-12 lg:px-8">
         <div className="lg:col-span-4">
           <h2 className="section-title">

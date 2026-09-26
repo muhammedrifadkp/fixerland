@@ -1,8 +1,6 @@
 export const BUSINESS_INFO = {
   name: "FIXERLAND",
   displayName: "Fixerland",
-  tagline: "Your Trusted Mobile Repair Partner in Kasaragod",
-  type: "Mobile Phone Repair Shop",
 
   // Contact details
   phoneDisplay: "+91 98950 18803",
@@ -30,7 +28,7 @@ export const BUSINESS_INFO = {
   googleMapsEmbedUrl:
     "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3895.1280185799797!2d74.99230087483309!3d12.507672687766686!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba4830019726e6f%3A0xa1dcbffce038e053!2sFIXERLAND!5e0!3m2!1sen!2sin!4v1790450671962!5m2!1sen!2sin",
 
-  // Social proof (publicly verified details — update when the Google listing changes)
+  // Social proof from the Google listing (checked Sep 2026). Update both numbers when the listing changes.
   googleRating: 5.0,
   googleReviewCount: 33,
 
@@ -60,7 +58,6 @@ export const IMAGES = {
   support: "/images/technician-testing.webp",
   banner: unsplash("photo-1746005847012-0c38b610a95a", 2000),
   store: unsplash("photo-1550041473-d296a3a8a18a", 2000),
-  storefront: "/images/storefront.webp",
   lab: "/images/lab-workbench.webp",
   chargers: unsplash("photo-1573739022854-abceaeb585dc", 900),
 } as const;
@@ -186,7 +183,7 @@ export const HIGHLIGHTS = [
 
 export const STATS = [
   { value: `${BUSINESS_INFO.googleRating.toFixed(1)}`, suffix: "★", label: "Google Rating" },
-  { value: `${BUSINESS_INFO.googleReviewCount}`, suffix: "+", label: "Google Reviews" },
+  { value: `${BUSINESS_INFO.googleReviewCount}`, suffix: "", label: "Google Reviews" },
   { value: "4", suffix: "", label: "Service Categories" },
   { value: "All", suffix: "", label: "Major Brands" },
 ] as const;
