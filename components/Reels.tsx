@@ -2,25 +2,50 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight, Play, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Play, Volume2, VolumeX, X } from "lucide-react";
 import { BUSINESS_INFO, REELS, type Reel } from "@/lib/constants";
 import { InstagramIcon } from "@/components/Icons";
 
 /* ------------------------------------------------------------------ */
-/* Card: poster, muted hover preview on desktop, opens the viewer      */
+/* Card: poster, hover preview on desktop, opens the viewer            */
 /* ------------------------------------------------------------------ */
 
-function ReelCard({ reel, onOpen }: { reel: Reel; onOpen: (el: HTMLButtonElement) => void }) {
+function ReelCard({
+  reel,
+  soundOn,
+  onToggleSound,
+  onOpen,
+}: {
+  reel: Reel;
+  soundOn: boolean;
+  onToggleSound: () => void;
+  onOpen: (el: HTMLButtonElement) => void;
+}) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [previewing, setPreviewing] = useState(false);
+  const [progress, setProgress] = useState(0);
+
+  // React doesn't keep the `muted` DOM property in sync, so drive it directly.
+  useEffect(() => {
+    if (videoRef.current) videoRef.current.muted = !soundOn;
+  }, [soundOn]);
 
   const startPreview = () => {
     // Only preview on devices with a real hover (desktop); touch devices tap straight into the viewer.
     if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const video = videoRef.current;
-    if (!video) return;
-    video.play().then(() => setPreviewing(true)).catch(() => {});
+    if (!video || !video.paused) return;
+    video.muted = !soundOn;
+    video
+      .play()
+      .catch(() => {
+        // Browsers can block sound until the visitor has interacted with the page; fall back to muted.
+        video.muted = true;
+        return video.play();
+      })
+      .then(() => setPreviewing(true))
+      .catch(() => {});
   };
 
   const stopPreview = () => {
@@ -30,64 +55,106 @@ function ReelCard({ reel, onOpen }: { reel: Reel; onOpen: (el: HTMLButtonElement
       video.currentTime = 0;
     }
     setPreviewing(false);
+    setProgress(0);
   };
 
+  const toggleSound = () => {
+    const video = videoRef.current;
+    if (video) video.muted = soundOn; // flip immediately, inside the click gesture
+    onToggleSound();
+  };
+
+  const muted = !soundOn;
+
   return (
-    <button
-      type="button"
-      onClick={(e) => {
-        stopPreview();
-        onOpen(e.currentTarget);
-      }}
+    <div
+      className="group relative aspect-[9/16] w-full overflow-hidden rounded-3xl bg-ink shadow-lg"
       onMouseEnter={startPreview}
       onMouseLeave={stopPreview}
       onFocus={startPreview}
-      onBlur={stopPreview}
-      aria-label={`Play video: ${reel.title} (${reel.duration})`}
-      className="group relative block aspect-[9/16] w-full overflow-hidden rounded-3xl bg-ink text-left shadow-lg outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-4 focus-visible:ring-offset-ink"
+      onBlur={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget as Node | null)) stopPreview();
+      }}
     >
-      <Image
-        src={reel.poster}
-        alt=""
-        fill
-        sizes="(min-width: 1024px) 260px, (min-width: 640px) 240px, 62vw"
-        className="object-cover transition-transform duration-500 group-hover:scale-105"
-      />
-      <video
-        ref={videoRef}
-        src={reel.src}
-        muted
-        loop
-        playsInline
-        preload="none"
-        aria-hidden
-        tabIndex={-1}
-        className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-300 ${
-          previewing ? "opacity-100" : "opacity-0"
-        }`}
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-black/30" />
-
-      <span className="absolute right-3 top-3 rounded-full bg-black/55 px-2.5 py-1 text-xs font-bold text-white backdrop-blur">
-        {reel.duration}
-      </span>
-
-      <span
-        className={`absolute left-1/2 top-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/25 text-white ring-1 ring-white/50 backdrop-blur-md transition-all duration-300 group-hover:scale-110 group-hover:bg-brand group-hover:ring-brand ${
-          previewing ? "scale-75 opacity-0" : "opacity-100"
-        }`}
-        aria-hidden
+      <button
+        type="button"
+        onClick={(e) => {
+          stopPreview();
+          onOpen(e.currentTarget);
+        }}
+        aria-label={`Play video: ${reel.title} (${reel.duration})`}
+        className="absolute inset-0 block text-left outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand rounded-3xl"
       >
-        <Play className="ml-1 h-7 w-7 fill-current" />
-      </span>
+        <Image
+          src={reel.poster}
+          alt=""
+          fill
+          sizes="(min-width: 1024px) 260px, (min-width: 640px) 240px, 62vw"
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+        <video
+          ref={videoRef}
+          src={reel.src}
+          muted
+          loop
+          playsInline
+          preload="none"
+          aria-hidden
+          tabIndex={-1}
+          onTimeUpdate={(e) => {
+            const v = e.currentTarget;
+            if (v.duration) setProgress(v.currentTime / v.duration);
+          }}
+          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-300 ${
+            previewing ? "opacity-100" : "opacity-0"
+          }`}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-black/30" />
 
-      <span className="absolute inset-x-4 bottom-4 text-white">
-        <span className="block text-base font-bold leading-snug">{reel.title}</span>
-        <span className="mt-1 flex items-center gap-1.5 text-xs text-white/75">
-          <span className="h-1.5 w-1.5 rounded-full bg-brand" /> Fixerland Kasaragod
+        <span className="absolute right-3 top-3 rounded-full bg-black/55 px-2.5 py-1 text-xs font-bold text-white backdrop-blur">
+          {reel.duration}
         </span>
-      </span>
-    </button>
+
+        <span
+          className={`absolute left-1/2 top-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/25 text-white ring-1 ring-white/50 backdrop-blur-md transition-all duration-300 group-hover:scale-110 group-hover:bg-brand group-hover:ring-brand ${
+            previewing ? "scale-75 opacity-0" : "opacity-100"
+          }`}
+          aria-hidden
+        >
+          <Play className="ml-1 h-7 w-7 fill-current" />
+        </span>
+
+        <span className="absolute inset-x-4 bottom-5 text-white">
+          <span className="block text-base font-bold leading-snug">{reel.title}</span>
+          <span className="mt-1 flex items-center gap-1.5 text-xs text-white/75">
+            <span className="h-1.5 w-1.5 rounded-full bg-brand" />
+            {previewing ? "Click to watch full video" : "Fixerland Kasaragod"}
+          </span>
+        </span>
+
+        {/* Preview progress */}
+        <span
+          className={`absolute inset-x-0 bottom-0 h-1 bg-white/20 transition-opacity ${previewing ? "opacity-100" : "opacity-0"}`}
+          aria-hidden
+        >
+          <span className="block h-full bg-brand" style={{ width: `${progress * 100}%` }} />
+        </span>
+      </button>
+
+      {/* Instagram-style sound toggle, shown while the preview plays */}
+      <button
+        type="button"
+        onClick={toggleSound}
+        aria-label={muted ? "Unmute preview" : "Mute preview"}
+        aria-pressed={!muted}
+        title={muted ? "Unmute" : "Mute"}
+        className={`absolute left-3 top-3 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-black/55 text-white backdrop-blur transition-all duration-200 hover:scale-110 hover:bg-black/75 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand ${
+          previewing ? "opacity-100" : "pointer-events-none opacity-0"
+        }`}
+      >
+        {muted ? <VolumeX className="h-4.5 w-4.5" /> : <Volume2 className="h-4.5 w-4.5" />}
+      </button>
+    </div>
   );
 }
 
@@ -221,6 +288,8 @@ function ReelViewer({
 
 export function Reels() {
   const [active, setActive] = useState<number | null>(null);
+  // Shared across cards: once a visitor unmutes one preview, the next previews play with sound too.
+  const [soundOn, setSoundOn] = useState(false);
   const scrollerRef = useRef<HTMLUListElement>(null);
   const openerRef = useRef<HTMLButtonElement | null>(null);
 
@@ -288,6 +357,8 @@ export function Reels() {
           <li key={reel.id} className="w-[62vw] shrink-0 snap-start sm:w-60 lg:w-[260px]">
             <ReelCard
               reel={reel}
+              soundOn={soundOn}
+              onToggleSound={() => setSoundOn((v) => !v)}
               onOpen={(el) => {
                 openerRef.current = el;
                 setActive(i);
