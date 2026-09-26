@@ -7,6 +7,7 @@ import { MobileCTA } from "@/components/MobileCTA";
 import { FloatingActions } from "@/components/FloatingActions";
 import { StructuredData } from "@/components/StructuredData";
 import { BUSINESS_INFO } from "@/lib/constants";
+import { getSiteUrl } from "@/lib/site";
 
 const ptSans = PT_Sans({
   subsets: ["latin"],
@@ -36,7 +37,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: BUSINESS_INFO.displayName }],
   creator: BUSINESS_INFO.displayName,
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://fixerland.com"),
+  metadataBase: new URL(getSiteUrl()),
   alternates: {
     canonical: "/",
   },

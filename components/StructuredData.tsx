@@ -1,7 +1,8 @@
 import { BUSINESS_INFO } from "@/lib/constants";
+import { getSiteUrl } from "@/lib/site";
 
 export function StructuredData() {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://fixerland.com";
+  const siteUrl = getSiteUrl();
 
   const schemaData = {
     "@context": "https://schema.org",
