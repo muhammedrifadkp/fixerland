@@ -58,7 +58,7 @@ export function ActionCards() {
               >
                 <Image
                   src={card.image}
-                  alt=""
+                  alt={`${card.title.join(" ")} - Fixerland Kasaragod`}
                   fill
                   sizes="(min-width: 768px) 33vw, 100vw"
                   className="-z-10 object-cover transition-transform duration-500 group-hover:scale-105"

@@ -7,7 +7,13 @@ export function Location() {
   return (
     <section id="location-section" className="bg-white px-4 pb-20 sm:px-6 md:pb-28 lg:px-8">
       <div className="relative isolate mx-auto max-w-7xl overflow-hidden rounded-[28px]">
-        <Image src={IMAGES.store} alt="" fill sizes="100vw" className="-z-10 object-cover" />
+        <Image
+          src={IMAGES.store}
+          alt="Fixerland mobile phone repair store at New Bus Stand Building, Kasaragod"
+          fill
+          sizes="100vw"
+          className="-z-10 object-cover"
+        />
         <div className="absolute inset-0 -z-10 bg-gradient-to-r from-black/85 via-black/70 to-black/40" />
 
         <div className="grid items-center gap-10 px-6 py-14 sm:px-10 lg:grid-cols-2 lg:px-14 lg:py-20">

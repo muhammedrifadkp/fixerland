@@ -87,7 +87,7 @@ function ReelCard({
       >
         <Image
           src={reel.poster}
-          alt=""
+          alt={`${reel.title} - Fixerland repair video poster`}
           fill
           sizes="(min-width: 1024px) 260px, (min-width: 640px) 240px, 62vw"
           className="object-cover transition-transform duration-500 group-hover:scale-105"

@@ -8,11 +8,28 @@ import { ContactCTA } from "@/components/ContactCTA";
 import { ShopGallery } from "@/components/ShopGallery";
 
 export const metadata: Metadata = {
-  title: "About Us",
+  title: "About Fixerland | Mobile Phone Repair Shop in Kasaragod",
   description:
-    "Learn about Fixerland, a local mobile phone repair and gadget shop at New Bus Stand Building, Kasaragod, opposite IDBI Bank.",
+    "Learn about Fixerland, a mobile phone repair shop in Kasaragod focused on careful diagnostics, honest advice and reliable smartphone repairs.",
   alternates: {
     canonical: "/about",
+  },
+  openGraph: {
+    title: "About Fixerland | Mobile Phone Repair Shop in Kasaragod",
+    description:
+      "Learn about Fixerland, a mobile phone repair shop in Kasaragod focused on careful diagnostics, honest advice and reliable smartphone repairs.",
+    url: "/about",
+    siteName: BUSINESS_INFO.displayName,
+    locale: "en_IN",
+    type: "website",
+    images: [{ url: "/logo.png", width: 512, height: 512, alt: "Fixerland logo" }],
+  },
+  twitter: {
+    card: "summary",
+    title: "About Fixerland | Mobile Phone Repair Shop in Kasaragod",
+    description:
+      "Learn about Fixerland, a mobile phone repair shop in Kasaragod focused on careful diagnostics, honest advice and reliable smartphone repairs.",
+    images: ["/logo.png"],
   },
 };
 

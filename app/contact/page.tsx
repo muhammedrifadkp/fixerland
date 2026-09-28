@@ -7,11 +7,28 @@ import { BookingForm } from "@/components/BookingForm";
 import { InstagramIcon } from "@/components/Icons";
 
 export const metadata: Metadata = {
-  title: "Contact & Book a Repair",
+  title: "Contact Fixerland | Mobile Repair Shop in Kasaragod",
   description:
-    "Book a phone repair or contact Fixerland in Kasaragod. Call +91 98950 18803, message us on WhatsApp, or visit us at New Bus Stand Building.",
+    "Contact Fixerland in Kasaragod to book a mobile phone repair, ask about your device issue or get directions to our store.",
   alternates: {
     canonical: "/contact",
+  },
+  openGraph: {
+    title: "Contact Fixerland | Mobile Repair Shop in Kasaragod",
+    description:
+      "Contact Fixerland in Kasaragod to book a mobile phone repair, ask about your device issue or get directions to our store.",
+    url: "/contact",
+    siteName: BUSINESS_INFO.displayName,
+    locale: "en_IN",
+    type: "website",
+    images: [{ url: "/logo.png", width: 512, height: 512, alt: "Fixerland logo" }],
+  },
+  twitter: {
+    card: "summary",
+    title: "Contact Fixerland | Mobile Repair Shop in Kasaragod",
+    description:
+      "Contact Fixerland in Kasaragod to book a mobile phone repair, ask about your device issue or get directions to our store.",
+    images: ["/logo.png"],
   },
 };
 

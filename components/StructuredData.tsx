@@ -4,15 +4,16 @@ import { getSiteUrl } from "@/lib/site";
 export function StructuredData() {
   const siteUrl = getSiteUrl();
 
-  const schemaData = {
+  const localBusinessSchema = {
     "@context": "https://schema.org",
-    "@type": "MobilePhoneStore",
+    "@type": ["LocalBusiness", "MobilePhoneStore"],
     name: BUSINESS_INFO.displayName,
-    url: siteUrl,
+    url: `${siteUrl}/`,
     logo: `${siteUrl}/logo.png`,
     image: `${siteUrl}/logo.png`,
-    description: "Mobile phone repair shop in Kasaragod offering phone repairs, diagnostics, accessories, and gadgets.",
-    telephone: BUSINESS_INFO.phoneE164,
+    description:
+      "Fixerland is a mobile phone repair shop in Kasaragod offering phone repairs, diagnostics, accessories and gadgets at New Bus Stand Building.",
+    telephone: BUSINESS_INFO.phoneDisplay,
     address: {
       "@type": "PostalAddress",
       streetAddress: `${BUSINESS_INFO.address.building}, ${BUSINESS_INFO.address.landmark}`,
@@ -21,7 +22,6 @@ export function StructuredData() {
       postalCode: BUSINESS_INFO.address.pincode,
       addressCountry: "IN",
     },
-    // Matches the FIXERLAND Google Business listing.
     geo: {
       "@type": "GeoCoordinates",
       latitude: 12.5076727,
@@ -31,10 +31,23 @@ export function StructuredData() {
     sameAs: [BUSINESS_INFO.instagramUrl],
   };
 
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: BUSINESS_INFO.displayName,
+    url: `${siteUrl}/`,
+  };
+
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+      />
+    </>
   );
 }

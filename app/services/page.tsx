@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { Check, Cpu, MessageCircle, ShieldCheck, Smartphone, Wrench } from "lucide-react";
-import { IMAGES, REPAIR_TYPES, SERVICES_LIST } from "@/lib/constants";
+import { BUSINESS_INFO, IMAGES, REPAIR_TYPES, SERVICES_LIST } from "@/lib/constants";
 import { getQuickWhatsAppUrl } from "@/lib/whatsapp";
 import { PageBanner } from "@/components/PageBanner";
 import { RepairProcess } from "@/components/RepairProcess";
@@ -9,11 +9,28 @@ import { Faq } from "@/components/Faq";
 import { ContactCTA } from "@/components/ContactCTA";
 
 export const metadata: Metadata = {
-  title: "Mobile Phone Repair Services",
+  title: "Mobile Phone Repair Services in Kasaragod | Fixerland",
   description:
-    "Phone repairs, device diagnostics, mobile accessories and gadgets at Fixerland, New Bus Stand Building, Kasaragod, Kerala.",
+    "Explore mobile phone repair, device diagnostics, accessories and gadget services at Fixerland in Kasaragod.",
   alternates: {
     canonical: "/services",
+  },
+  openGraph: {
+    title: "Mobile Phone Repair Services in Kasaragod | Fixerland",
+    description:
+      "Explore mobile phone repair, device diagnostics, accessories and gadget services at Fixerland in Kasaragod.",
+    url: "/services",
+    siteName: BUSINESS_INFO.displayName,
+    locale: "en_IN",
+    type: "website",
+    images: [{ url: "/logo.png", width: 512, height: 512, alt: "Fixerland logo" }],
+  },
+  twitter: {
+    card: "summary",
+    title: "Mobile Phone Repair Services in Kasaragod | Fixerland",
+    description:
+      "Explore mobile phone repair, device diagnostics, accessories and gadget services at Fixerland in Kasaragod.",
+    images: ["/logo.png"],
   },
 };
 
@@ -61,7 +78,7 @@ export default function ServicesPage() {
                   <div className="relative aspect-[4/3] overflow-hidden rounded-[28px] shadow-xl">
                     <Image
                       src={service.image}
-                      alt={service.title}
+                      alt={`${service.title} - Fixerland Kasaragod`}
                       fill
                       sizes="(min-width: 1024px) 50vw, 100vw"
                       className="object-cover"

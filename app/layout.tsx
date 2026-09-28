@@ -18,12 +18,12 @@ const ptSans = PT_Sans({
 
 const defaultTitle = "Fixerland | Mobile Phone Repair Shop in Kasaragod";
 const defaultDescription =
-  "Fixerland is a mobile phone repair shop in Kasaragod offering phone repairs, diagnostics, accessories and gadgets. Visit us at New Bus Stand Building, opposite IDBI Bank.";
+  "Fixerland is a mobile phone repair shop in Kasaragod offering phone repairs, diagnostics, accessories and gadgets at New Bus Stand Building.";
 
 export const metadata: Metadata = {
   title: {
     default: defaultTitle,
-    template: "%s | Fixerland Kasaragod",
+    template: "%s",
   },
   description: defaultDescription,
   keywords: [

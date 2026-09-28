@@ -300,7 +300,7 @@ export const REELS: Reel[] = [
   reel("Video-1834", "Board-level iPhone repair", "0:53"),
   reel("Video-85340", "A repair from start to finish", "1:30"),
   reel("Video-29821", "iPhone Pro repaired & ready", "0:24"),
-  reel("Video-46086", "Schematic-guided diagnosis", "0:30"),
+  reel("Video-46086", "iPhone 13 Pro Max total rebuild", "0:30"),
   reel("Video-61554", "Display & board repair", "0:42"),
   reel("Video-88150", "Inside a logic board fix", "1:01"),
   reel("Video-95674", "Meet our technician", "0:35"),
