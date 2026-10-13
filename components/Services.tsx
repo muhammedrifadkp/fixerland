@@ -26,7 +26,7 @@ export function Services() {
             >
               <Image
                 src={service.image}
-                alt=""
+                alt={`${service.title} at Fixerland, Kasaragod`}
                 fill
                 sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
                 className="-z-10 object-cover transition-transform duration-500 group-hover:scale-110"

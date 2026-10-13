@@ -5,7 +5,7 @@ export function Logo({ light = false, size = 52 }: { light?: boolean; size?: num
     <span className="flex items-center gap-2.5">
       <Image
         src="/logo.webp"
-        alt=""
+        alt="Fixerland logo"
         width={size}
         height={size}
         priority
